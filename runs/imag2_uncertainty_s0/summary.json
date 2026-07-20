@@ -1,0 +1,15 @@
+{
+  "method": "uncertainty",
+  "horizon": 20,
+  "uncertainty_threshold": 6.627080892940285e-06,
+  "beta": 1.0,
+  "world_model": "runs/world_model/world_model.pt",
+  "state_dataset": "data/policy.npz",
+  "init_checkpoint": "runs/ppo_mid/checkpoint.pt",
+  "total_timesteps": 499712,
+  "checkpoint": "runs/imag2_uncertainty_s0/checkpoint.pt",
+  "segments_completed": 88555,
+  "final_model_segment_return_20": -1.3163240496069193,
+  "final_mean_segment_horizon_20": 4.2,
+  "uncertainty_terminations": 86852
+}

@@ -1,0 +1,52 @@
+[
+  {
+    "label": "ppo_seed0",
+    "checkpoint": "runs/ppo_seed0/checkpoint.pt",
+    "policy_type": "deterministic_actor_mean",
+    "episodes": 30,
+    "mean": -148.69135956596935,
+    "std": 94.44373303232567,
+    "min": -359.56174160330323,
+    "max": -4.513167665511754
+  },
+  {
+    "label": "ppo_seed1",
+    "checkpoint": "runs/ppo_seed1/checkpoint.pt",
+    "policy_type": "deterministic_actor_mean",
+    "episodes": 30,
+    "mean": -152.72748374393439,
+    "std": 100.88690087413893,
+    "min": -388.16202110201414,
+    "max": -0.15502372412887286
+  },
+  {
+    "label": "ppo_seed2",
+    "checkpoint": "runs/ppo_seed2/checkpoint.pt",
+    "policy_type": "deterministic_actor_mean",
+    "episodes": 30,
+    "mean": -157.51485650851342,
+    "std": 100.4680402403773,
+    "min": -398.6258560204912,
+    "max": -0.5055983601540799
+  },
+  {
+    "label": "ppo_across_seeds",
+    "checkpoint": "",
+    "policy_type": "aggregate_seed_means",
+    "episodes": 30,
+    "mean": -152.9778999394724,
+    "std": 4.4170754778486545,
+    "min": -157.51485650851342,
+    "max": -148.69135956596935
+  },
+  {
+    "label": "random_policy",
+    "checkpoint": "",
+    "policy_type": "uniform_random",
+    "episodes": 30,
+    "mean": -1198.5805272286093,
+    "std": 280.66191606807195,
+    "min": -1758.3844493244947,
+    "max": -762.8476536687682
+  }
+]

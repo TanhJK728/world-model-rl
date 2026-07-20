@@ -1,0 +1,9 @@
+{
+  "mode": "policy",
+  "env_id": "Pendulum-v1",
+  "steps": 60000,
+  "num_envs": 8,
+  "seed": 123,
+  "checkpoint": "runs/ppo_seed0/checkpoint.pt",
+  "deterministic_policy": false
+}

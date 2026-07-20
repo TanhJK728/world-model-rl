@@ -1,0 +1,9 @@
+{
+  "seed": 0,
+  "requested_timesteps": 1000000,
+  "actual_timesteps": 999424,
+  "episodes_completed": 4992,
+  "final_mean_return_20": -146.23043758088846,
+  "best_mean_return_20": -104.26013650074432,
+  "device": "cpu"
+}

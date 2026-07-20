@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Regenerable binaries (see README "Reproduce everything"). Figures, CSVs, JSON,
+# and Markdown result tables under runs/ ARE committed so the results are visible.
+*.pt
+data/*.npz
+
+# Personal application materials — kept locally, not published.
+EMAIL_DRAFT.md
+APPLICATION_NOTE.md
+THREE_DAY_PLAN.md
+
+# Harness/editor local state
+.claude/

@@ -1,0 +1,15 @@
+{
+  "method": "fixed",
+  "horizon": 5,
+  "uncertainty_threshold": 6.627080892940285e-06,
+  "beta": 1.0,
+  "world_model": "runs/world_model/world_model.pt",
+  "state_dataset": "data/policy.npz",
+  "init_checkpoint": "runs/ppo_seed0/checkpoint.pt",
+  "total_timesteps": 98304,
+  "checkpoint": "runs/imagined_fixed_h5/checkpoint.pt",
+  "segments_completed": 19648,
+  "final_model_segment_return_20": -4.799876015633345,
+  "final_mean_segment_horizon_20": 5.0,
+  "uncertainty_terminations": 0
+}

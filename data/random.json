@@ -1,0 +1,9 @@
+{
+  "mode": "random",
+  "env_id": "Pendulum-v1",
+  "steps": 30000,
+  "num_envs": 8,
+  "seed": 123,
+  "checkpoint": "",
+  "deterministic_policy": false
+}
