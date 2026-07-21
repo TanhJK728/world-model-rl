@@ -6,7 +6,7 @@ A compact, from-scratch, fully reproducible study of one question in model-based
 
 The project builds the whole stack from scratch in PyTorch — continuous-control PPO, a bootstrapped dynamics ensemble, and uncertainty-aware policy refinement inside the learned model — on `Pendulum-v1`, and then measures the **exploitation gap** (how much better a policy looks in imagination than in reality) under matched conditions.
 
-It is deliberately a **state-space, dynamics-model MBRL** study (à la PETS / MBPO / Dreamer's imagination step), **not** a generative video world model (à la Cosmos). The point is the *RL-reliability mechanism* — long-horizon error accumulation, epistemic uncertainty, and policy-induced distribution shift — which is transferable across world-model backbones.
+It is deliberately a **state-space, dynamics-model MBRL** study (in the spirit of PETS / MBPO / Dreamer's imagination step), **not** a generative video world model (like Cosmos). The point is the *RL-reliability mechanism* — long-horizon error accumulation, epistemic uncertainty, and policy-induced distribution shift — which is transferable across world-model backbones.
 
 ---
 
@@ -172,7 +172,7 @@ Predicting $\Delta s$ (with input/target normalization) is easier and more accur
 - **Bootstrap ensemble + episode-level split.** Each member trains on a bootstrap resample $D_j\sim\text{Bootstrap}(D_{\text{train}})$; the train/validation split is by whole episode, so adjacent transitions of one trajectory never straddle the split.
 - **Ensemble disagreement = epistemic uncertainty:**
 
-$$u_t = \operatorname{mean}_k \operatorname{Var}_j\big[\hat s_{t+1,k}^{(j)}\big],$$
+$$u_t = \mathrm{mean}_k\, \mathrm{Var}_j\big[\hat s_{t+1,k}^{(j)}\big],$$
 
 calibrated on the validation set into quantiles $q_{50},q_{90},q_{95},q_{99}$. Here $q_{95}=6.63\times10^{-6}$ — the default rollout-termination threshold in Phase 3.
 
