@@ -172,7 +172,7 @@ Predicting $\Delta s$ (with input/target normalization) is easier and more accur
 - **Bootstrap ensemble + episode-level split.** Each member trains on a bootstrap resample $D_j\sim\text{Bootstrap}(D_{\text{train}})$; the train/validation split is by whole episode, so adjacent transitions of one trajectory never straddle the split.
 - **Ensemble disagreement = epistemic uncertainty:**
 
-$$u_t = \mathrm{mean}_k\, \mathrm{Var}_j\big[\hat s_{t+1,k}^{(j)}\big],$$
+$$u_t = \mathrm{mean}_k\ \mathrm{Var}_j\big[\hat s_{t+1,k}^{(j)}\big],$$
 
 calibrated on the validation set into quantiles $q_{50},q_{90},q_{95},q_{99}$. Here $q_{95}=6.63\times10^{-6}$ — the default rollout-termination threshold in Phase 3.
 
