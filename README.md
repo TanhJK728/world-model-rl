@@ -91,7 +91,7 @@ Or run phases individually — every command is in the phase sections below. The
 
 **Environment.** `Pendulum-v1`: observation $s_t=(\cos\theta_t,\sin\theta_t,\dot\theta_t)$, torque $a_t\in[-2,2]$, reward
 
-$$r_t = -\big(\theta_t^2 + 0.1\,\dot\theta_t^2 + 0.001\,a_t^2\big).$$
+$$r_t = -\big(\theta_t^2 + 0.1\dot\theta_t^2 + 0.001 a_t^2\big).$$
 
 **Policy.** A tanh-squashed Gaussian. The network outputs $\mu_\theta(s),\sigma_\theta(s)$; we sample $z\sim\mathcal N(\mu_\theta,\sigma_\theta^2)$ and squash
 
@@ -99,17 +99,17 @@ $$a = a_{\text{scale}}\tanh(z) + a_{\text{bias}}.$$
 
 The change of variables requires a log-det-Jacobian correction to the log-probability:
 
-$$\log\pi_\theta(a\mid s) = \log\mathcal N(z;\mu_\theta,\sigma_\theta^2) - \sum_i \log\!\big(a_{\text{scale}}(1-\tanh^2 z_i)\big).$$
+$$\log\pi_\theta(a\mid s) = \log\mathcal N(z;\mu_\theta,\sigma_\theta^2) - \sum_i \log\big(a_{\text{scale}}(1-\tanh^2 z_i)\big).$$
 
 At evaluation we use the deterministic actor mean $a = a_{\text{scale}}\tanh(\mu_\theta(s)) + a_{\text{bias}}$.
 
 **Advantage estimation (GAE-λ).** With $\delta_t = r_t + \gamma V(s_{t+1})(1-d_{t+1}) - V(s_t)$,
 
-$$\hat A_t = \sum_{l\ge 0}(\gamma\lambda)^l\,\delta_{t+l},\qquad \hat R_t = \hat A_t + V(s_t).$$
+$$\hat A_t = \sum_{l\ge 0}(\gamma\lambda)^l \delta_{t+l},\qquad \hat R_t = \hat A_t + V(s_t).$$
 
 **Clipped PPO objective.** With ratio $\rho_t(\theta)=\dfrac{\pi_\theta(a_t\mid s_t)}{\pi_{\theta_{\text{old}}}(a_t\mid s_t)}$ and normalized advantages,
 
-$$L^{\text{clip}} = \mathbb E\Big[\min\big(\rho_t\hat A_t,\ \text{clip}(\rho_t,1-\epsilon,1+\epsilon)\hat A_t\big)\Big],$$
+$$L^{\text{clip}} = \mathbb E\Big[\min\big(\rho_t\hat A_t, \text{clip}(\rho_t,1-\epsilon,1+\epsilon)\hat A_t\big)\Big],$$
 
 plus a clipped value loss and a target-KL early stop. (All implemented in [`train_ppo.py`](train_ppo.py).)
 
@@ -172,7 +172,7 @@ Predicting $\Delta s$ (with input/target normalization) is easier and more accur
 - **Bootstrap ensemble + episode-level split.** Each member trains on a bootstrap resample $D_j\sim\text{Bootstrap}(D_{\text{train}})$; the train/validation split is by whole episode, so adjacent transitions of one trajectory never straddle the split.
 - **Ensemble disagreement = epistemic uncertainty:**
 
-$$u_t = \mathrm{mean}_k\ \mathrm{Var}_j\big[\hat s_{t+1,k}^{(j)}\big],$$
+$$u_t = \mathrm{mean}_k \mathrm{Var}_j\big[\hat s_{t+1,k}^{(j)}\big],$$
 
 calibrated on the validation set into quantiles $q_{50},q_{90},q_{95},q_{99}$. Here $q_{95}=6.63\times10^{-6}$ — the default rollout-termination threshold in Phase 3.
 
@@ -184,7 +184,7 @@ Three datasets are collected from the solved seed-0 policy region and its comple
 |---|---|---|
 | `policy` (60k) | stochastic PPO policy | −0.9 (near-upright, low cost) |
 | `random` (30k) | $a\sim U[-2,2]$ | −6.3 |
-| `ood` (30k) | extreme torques $\lvert a\rvert\in[0.85,1.0]\,a_{\max}$ | −6.3 |
+| `ood` (30k) | extreme torques $\lvert a\rvert\in[0.85,1.0]\cdot a_{\max}$ | −6.3 |
 
 ```bash
 python collect_transitions.py --mode policy --checkpoint runs/ppo_seed0/checkpoint.pt --steps 60000 --output data/policy.npz
@@ -218,10 +218,10 @@ Crucially, **ensemble disagreement rises in the same order** (policy ≪ random 
 [`imagined_env.py`](imagined_env.py) is a vectorized "imagined environment": at each step the policy acts, the **exact** reward is applied, the ensemble mean gives the next state, and the ensemble variance gives $u_t$. A real PPO checkpoint **warm-starts** the policy — this is RL *post-training* inside a learned model. Four methods:
 
 - **Fixed H=5 / H=20** — imagined rollouts of fixed length. Longer $H$ ⇒ stronger credit assignment but more model-error accumulation.
-- **Uncertainty termination** — cut the rollout the moment $u_t>\tau$ (default $\tau=q_{95}$), giving an *adaptive* horizon $H_t=\min\{H_{\max},\ \text{first }t: u_t>\tau\}$.
+- **Uncertainty termination** — cut the rollout the moment $u_t>\tau$ (default $\tau=q_{95}$), giving an *adaptive* horizon $H_t=\min\lbrace H_{\max}, \text{first } t: u_t>\tau\rbrace$.
 - **Weighted advantage** — keep full horizon but down-weight uncertain transitions:
 
-$$\tilde A_t = w_t\,\hat A_t,\qquad w_t=\max\!\big(0.02,\ \exp(-\beta\,u_t/\tau)\big).$$
+$$\tilde A_t = w_t \hat A_t,\qquad w_t=\max\big(0.02, \exp(-\beta u_t/\tau)\big).$$
 
 The floor $0.02$ prevents high-uncertainty transitions from contributing exactly zero gradient.
 
